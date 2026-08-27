@@ -25,6 +25,6 @@ if user_input:
         st.session_state.chat_history.append(AIMessage(content=output.content))
 
         st.write("You:", user_input)
-        st.write("AI:", output.content)
+        st.write("AI:", output.content[0]["text"])
     except Exception as e:
         st.error(f"Error from Gemini API: {e}")

@@ -13,7 +13,7 @@ if not api_key:
     st.error("Gemini API key is missing! Please configure GOOGLE_API_KEY in your .env or Streamlit Secrets.")
     st.stop()
 
-model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
+model = ChatGoogleGenerativeAI(model="gemini-3.5-flash", google_api_key=api_key)
 
 st.title("Basic chat bot")
 

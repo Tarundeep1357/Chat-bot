@@ -13,7 +13,7 @@ if not api_key:
     st.error("Gemini API key is missing! Please configure GOOGLE_API_KEY in your .env or Streamlit Secrets.")
     st.stop()
 
-model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=api_key)
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
 
 st.title("Basic chat bot")
 
@@ -24,8 +24,11 @@ user_input = st.chat_input("You:")
 
 if user_input:
     st.session_state.chat_history.append(HumanMessage(content=user_input))
-    output = model.invoke(st.session_state.chat_history)
-    st.session_state.chat_history.append(AIMessage(content=output.content))
+    try:
+        output = model.invoke(st.session_state.chat_history)
+        st.session_state.chat_history.append(AIMessage(content=output.content))
 
-    st.write("You:", user_input)
-    st.write("AI:", output.content)
+        st.write("You:", user_input)
+        st.write("AI:", output.content)
+    except Exception as e:
+        st.error(f"Error from Gemini API: {e}")

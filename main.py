@@ -1,0 +1,31 @@
+import os
+import streamlit as st
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import HumanMessage, AIMessage
+
+load_dotenv()
+
+# Get API key from environment variable or Streamlit Secrets
+api_key = os.getenv("GOOGLE_API_KEY") or st.secrets.get("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
+
+if not api_key:
+    st.error("Gemini API key is missing! Please configure GOOGLE_API_KEY in your .env or Streamlit Secrets.")
+    st.stop()
+
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=api_key)
+
+st.title("Basic chat bot")
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+user_input = st.chat_input("You:")
+
+if user_input:
+    st.session_state.chat_history.append(HumanMessage(content=user_input))
+    output = model.invoke(st.session_state.chat_history)
+    st.session_state.chat_history.append(AIMessage(content=output.content))
+
+    st.write("You:", user_input)
+    st.write("AI:", output.content)

@@ -1,0 +1,14 @@
+# LangChain Core
+langchain>=0.3.0
+langchain-core>=0.3.0
+
+# Google Gemini Integration
+langchain-google-genai>=2.0.0
+google-generativeai>=0.8.0
+
+# Environment Variable Management
+python-dotenv>=1.0.1
+
+langchain-google-genai
+streamlit
+python-dotenv

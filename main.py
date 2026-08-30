@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import streamlit as st
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY") or st.secrets.get("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -20,8 +20,11 @@ user_input = st.chat_input("You:")
 
 if user_input:
     st.session_state.chat_history.append(HumanMessage(content=user_input))
+    try:
         output = model.invoke(st.session_state.chat_history)
         st.session_state.chat_history.append(AIMessage(content=output.content))
 
         st.write("You:", user_input)
         st.write("AI:", output.content[0]["text"])
+    except Exception as e:
+        st.error(f"Error from Gemini API: {e}")

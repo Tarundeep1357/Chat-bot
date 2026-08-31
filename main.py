@@ -14,7 +14,7 @@ if "chat_history" not in st.session_state:
 model = ChatGoogleGenerativeAI(model='gemini-3.6-flash', google_api_key=api_key)
 
 
-st.title("Basic chat bot")
+st.title("Basic chat bot") 
 
 user_input = st.chat_input("You:")
 
